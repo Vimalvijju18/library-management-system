@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero">
+    <h1>Welcome to Library Management System</h1>
+    <p>Manage your books efficiently with our digital library system</p>
+    
+    {% if not session.user_id %}
+        <div class="hero-buttons">
+            <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
+            <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
+        </div>
+    {% endif %}
+</div>
+
+<div class="features">
+    <div class="feature-card">
+        <h3>For Students</h3>
+        <ul>
+            <li>Search and browse books</li>
+            <li>Issue books online</li>
+            <li>Track your issued books</li>
+            <li>Return books easily</li>
+        </ul>
+    </div>
+    
+    <div class="feature-card">
+        <h3>For Administrators</h3>
+        <ul>
+            <li>Add new books to library</li>
+            <li>Manage book inventory</li>
+            <li>Track issued books</li>
+            <li>User management</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

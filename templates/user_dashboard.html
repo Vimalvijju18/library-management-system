@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}User Dashboard - Library Management{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <h2>User Dashboard</h2>
+    
+    <div class="user-section">
+        <h3>Available Books</h3>
+        <div class="books-grid">
+            {% for book in books %}
+            <div class="book-card">
+                <h4>{{ book.title }}</h4>
+                <p><strong>Author:</strong> {{ book.author }}</p>
+                <p><strong>Available:</strong> {{ book.available_copies }} copies</p>
+                <a href="{{ url_for('issue_book', book_id=book.id) }}" class="btn btn-primary">Issue Book</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="user-section">
+        <h3>My Issued Books</h3>
+        {% if issued_books %}
+        <div class="issued-books">
+            {% for book in issued_books %}
+            <div class="issued-book-card">
+                <h4>{{ book.title }}</h4>
+                <p><strong>Author:</strong> {{ book.author }}</p>
+                <p><strong>Issue Date:</strong> {{ book.issue_date }}</p>
+                <p><strong>Return Date:</strong> {{ book.return_date }}</p>
+                <p><strong>Status:</strong> 
+                    {% if book.returned %}
+                        <span class="status-returned">Returned</span>
+                    {% else %}
+                        <span class="status-issued">Issued</span>
+                        <a href="{{ url_for('return_book', book_id=book.book_id) }}" class="btn btn-secondary">Return</a>
+                    {% endif %}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No books issued yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

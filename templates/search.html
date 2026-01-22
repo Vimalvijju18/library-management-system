@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Search Books - Library Management{% endblock %}
+
+{% block content %}
+<div class="search-container">
+    <h2>Search Books</h2>
+    
+    <form method="GET" class="search-form">
+        <div class="search-input">
+            <input type="text" name="q" placeholder="Search by title or author..." value="{{ query }}">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+
+    {% if query %}
+        <h3>Search Results for "{{ query }}"</h3>
+        {% if books %}
+        <div class="books-grid">
+            {% for book in books %}
+            <div class="book-card">
+                <h4>{{ book.title }}</h4>
+                <p><strong>Author:</strong> {{ book.author }}</p>
+                <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+                <p><strong>Available:</strong> {{ book.available_copies }}/{{ book.total_copies }}</p>
+                {% if session.user_id and session.role != 'admin' and book.available_copies > 0 %}
+                    <a href="{{ url_for('issue_book', book_id=book.id) }}" class="btn btn-primary">Issue Book</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No books found matching your search.</p>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
